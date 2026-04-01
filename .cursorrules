@@ -1,0 +1,84 @@
+# Quy tắc Dự án: hoidanit-ecommerce
+
+Dưới đây là các quy tắc quan trọng bạn **PHẢI** tuân thủ khi viết mã trong dự án này.
+
+## 1. Công nghệ chính (Tech Stack)
+
+### Backend (backend-nest-hoidanit)
+- **Framework**: NestJS v11
+- **Ngôn ngữ**: TypeScript (Strict Mode)
+- **ORM**: TypeORM
+- **Cơ sở dữ liệu**: MySQL 8.x
+
+### Frontend (frontend-react-hoidanit)
+- **Framework**: React 19 + Vite
+- **Quản lý trạng thái Server**: TanStack Query (v5+)
+- **Quản lý trạng thái Global**: Zustand (chỉ dành cho Auth, Cart)
+- **Styling**: Tailwind CSS
+- **Routing**: React Router v7 (sử dụng `import from 'react-router'`)
+- **Form**: React Hook Form + Zod
+
+---
+
+## 2. Cấu trúc thư mục (Architecture)
+
+Quy tắc chung: Phát triển theo từng **Feature** (Tính năng).
+
+### Cấu trúc Backend Feature:
+`src/features/[feature-name]/`
+- `[feature].module.ts`: Khai báo module.
+- `[feature].controller.ts`: Định nghĩa endpoint.
+- `[feature].service.ts`: Xử lý logic nghiệp vụ.
+- `entities/[entity].entity.ts`: Thực thể cơ sở dữ liệu.
+- `repositories/[entity].repository.ts`: Truy vấn phức tạp.
+- `dto/`: Data Transfer Objects (Validation).
+- `CONTEXT.md`: Tài liệu tóm tắt tính năng.
+
+### Cấu trúc Frontend Feature:
+`src/features/[feature-name]/`
+- `components/`: UI components đặc thù.
+- `hooks/`: Các custom hook (thường là TanStack Query).
+- `services/`: Gọi API (Axios).
+- `pages/`: Các trang giao diện.
+- `index.ts`: Barrel export (CHỈ export những gì cần thiết ra bên ngoài).
+
+---
+
+## 3. Quy tắc đặt tên (Naming Conventions)
+
+- **Thư mục/Tệp tin**: `kebab-case` (ví dụ: `user-profile/`, `create-user.dto.ts`).
+- **Class**: `PascalCase` (ví dụ: `UserService`, `CreateUserDto`).
+- **Function/Variable**: `camelCase` (ví dụ: `findById`, `userId`).
+- **Entity**: `PascalCase` số ít (ví dụ: `User`, `ProductVariant`).
+- **Routes**: `UPPER_SNAKE_CASE` cho hằng số (ví dụ: `ROUTES.PRODUCT_DETAIL`).
+
+---
+
+## 4. Các mẫu thiết kế quan trọng (Design Patterns)
+
+### Backend:
+- **KHÔNG** viết logic nghiệp vụ trong Controller.
+- **KHÔNG** thực hiện truy vấn cơ bản trong Repository (Sử dụng Service trực tiếp từ repo mặc định).
+- **LUÔN** sử dụng `ConfigService` để lấy biến môi trường.
+- **LUÔN** sử dụng `HttpException` có sẵn của NestJS.
+
+### Frontend:
+- **KHÔNG** sử dụng `useEffect` để fetch dữ liệu. Hãy dùng `useQuery` của TanStack Query.
+- **LUÔN** sử dụng Barrel exports (index.ts) để quản lý export. Tránh import sâu vào thư mục feature.
+- **LUÔN** sử dụng hằng số `ROUTES` để điều hướng.
+- **LUÔN** xử lý đầy đủ các trạng thái: Loading, Error, Empty.
+
+---
+
+## 5. Quy tắc Git & Commit
+
+- **Branch**: `[type]/[feature]-[description]` (ví dụ: `feat/auth-login`, `fix/cart-quantity`).
+- **Commit Message**: `[type]: [description]` (ví dụ: `feat: add product list`, `fix: validation error`).
+
+---
+
+## 6. Ghi chú chung
+
+- **Ngôn ngữ**: Mã nguồn viết bằng tiếng Anh. Tuy nhiên, các lời nhắc (reminders) hoặc ghi chú quan trọng liên quan đến dự án này hãy ưu tiên trao đổi bằng **tiếng Việt**.
+- Luôn đọc `CONTEXT.md` trong từng thư mục feature trước khi chỉnh sửa.
+- Tuân thủ nghiêm ngặt `01-share-docs/API_SPEC.md` và `01-share-docs/DATABASE.md`.

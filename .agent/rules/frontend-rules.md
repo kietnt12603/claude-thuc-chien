@@ -1,0 +1,29 @@
+# Quy tắc Frontend (Frontend Rules)
+
+Dự án: **frontend-react-hoidanit**
+
+## 1. Cấu trúc thư mục (Architecture)
+- **Tính năng (Feature)**: Mỗi mảng nội dung thuộc `src/features/[feature-name]/`.
+- **Dùng chung (Shared)**: Thư mục `src/shared/` cho UI components, hooks, layouts, lib (Axios instance), types.
+- **Điều hướng (Routes)**: `src/routes/` tập trung các hằng số URL và cấu hình React Router.
+
+## 2. Quy tắc phát triển (Development Patterns)
+- **Fetch dữ liệu**: Tuyệt đối **KHÔNG** sử dụng `useEffect` để fetch dữ liệu từ API. LUÔN sử dụng TanStack Query (v5+) cho quản lý server state.
+- **UI Components**: Ưu tiên sử dụng và mở rộng các component trong `src/shared/components/`.
+- **Styling**: Sử dụng Tailwind CSS classes. KHÔNG dùng inline styles hay CSS modules trừ trường hợp cực kỳ đặc thù.
+- **Trạng thái (State)**: 
+    *   **Local state**: `useState`, `useReducer`.
+    *   **Server state**: TanStack Query.
+    *   **Global state**: Zustand (chỉ khi thật sự cần thiết, ví dụ: Auth, Cart).
+    *   **URL state**: `searchParams` cho filter, pagination.
+
+## 3. Điều hướng & Biểu mẫu
+- **Routes**: Sử dụng hằng số `ROUTES` định nghĩa sẵn trong `src/routes/routes.ts`.
+- **Form**: Bắt buộc sử dụng `React Hook Form` kết hợp cùng `Zod` để validate biểu mẫu.
+- **Types**: Phải khớp hoàn toàn với định nghĩa trong tài liệu `01-share-docs/API_SPEC.md`.
+
+## 4. Quy định khác
+- **Barrel Export**: Sử dụng tệp `index.ts` trong mỗi feature folder để đóng gói và export các thành phần ra ngoài.
+- LUÔN xử lý các biểu tượng (icons) từ `lucide-react`.
+- Luôn xử lý trạng thái Loading và Error cho mỗi màn hình.
+- **KHÔNG** sử dụng kiểu `any`.
